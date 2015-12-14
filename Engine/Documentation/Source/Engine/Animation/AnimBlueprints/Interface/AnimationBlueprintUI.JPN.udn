@@ -1,0 +1,131 @@
+﻿INTSourceChangelist:2615776
+Availability:Public
+Title:Animation ブループリントのユーザー インターフェース
+Crumbs: %ROOT%, Engine, Engine/Animation, Engine/Animation/AnimBlueprints
+Description:アニメーション ブループリントの UI の概要
+
+[TOC(start:2 end:2)]
+
+## 概要
+
+以下のセクションでは、アニメーション ブループリントのユーザー インターフェース (UI) のエリアについて説明します。
+
+
+![](AnimGraphUI.png)(w:900)
+
+1. **メニューバー**
+1. **ツールバー**
+1. **Viewport (ビューポート)**
+1. **クラス デフォルト パネル**
+1. **グラフ**
+1. **Asset Browser (アセット ブラウザ) タブ**
+1. **My Blueprint タブ**
+1. **[Details (詳細)] パネル**
+1. **Palette (パレット)**
+
+##メニュー バー
+
+**メニューバー** では、保存、元に戻す、やり直し、およびいくつかのペルソナ固有のメニューなどの一般的なエディタ操作を利用できます。例えば、**Asset** メニューでは、
+デフォルトのプレビュー メッシュの変更、スケルトンから使用されていないボーンを取り除く、アニメーションを記録することができます。 
+
+
+## ツールバー
+
+アニメーション ブループリントのツールバーには、他のブループリントのツールバーと同じオプションが多く含まれています。
+
+![](AnimGraphUI_Toolbar.png)(w:900)
+
+[EXCERPT:Toolbar]
+| アイテム | 説明 |
+| ---- | ----------- |
+| ![Compile Successful Button](Engine/Blueprints/Editor/UIComponents/Toolbar/bp_compile_successful.png) | ブループリントをコンパイルします。| 
+| ![Save Button](Engine/Blueprints/Editor/UIComponents/Toolbar/bp_save.png) | [INCLUDE:Engine/Blueprints/Editor/UIComponents/Toolbar/ToolbarOptions/#Save] |
+| ![Find in Content Browser Button](Engine/Blueprints/Editor/UIComponents/Toolbar/bp_find_in_cb.png) | [INCLUDE:Engine/Blueprints/Editor/UIComponents/Toolbar/ToolbarOptions/#FindInCB] | 
+| ![Search Button](Engine/Blueprints/Editor/UIComponents/Toolbar/bp_search.png) | [INCLUDE:Engine/Blueprints/Editor/UIComponents/Toolbar/ToolbarOptions/#Search] | 
+| ![Blueprint Properties Button](Engine/Blueprints/Editor/UIComponents/Toolbar/bp_properties.png) | [INCLUDE:Engine/Blueprints/Editor/UIComponents/Toolbar/ToolbarOptions/#BlueprintProps] | 
+| ![Simulate Button](Engine/Blueprints/Editor/UIComponents/Toolbar/bp_simulate.png) | シミュレーション モードでゲームを開始します。|
+| ![Play In Editor Button](Engine/Blueprints/Editor/UIComponents/Toolbar/bp_play_in.png) | レベル エディタで通常のプレイ モードでゲームを開始します。矢印をクリックすると **[Launch Options (オプションの起動)]** メニューが表示されます。 | 
+| ![Debug Dropdown](Engine/Blueprints/Editor/UIComponents/Toolbar/bp_debug_dropdown.png) | [INCLUDE:Engine/Blueprints/Editor/UIComponents/Toolbar/ToolbarOptions/#DebugObject]  | 
+[/EXCERPT:Toolbar]
+
+ブループリント ツールバーに関する詳細は、[](Engine/Blueprints\Editor/UIComponents\Toolbar) をご覧ください。
+
+上記のオプション以外にアニメーション ブループリント ツールバーには、ペルソナ(Persona) の様々なモードに対するタブもあります。
+
+| アイテム | 説明 |
+| ---- | ----------- |
+|  ![](button_AnimGraphUI_Skeleton.png) | スケルトンのプロパティを含む [ペルソナ] タブを開きます。 |
+|  ![](button_AnimGraphUI_Mesh.png) | スケルタルメッシュのプロパティを含む [ペルソナ] タブを開きます。 |
+|  ![](button_AnimGraphUI_Animation.png) | アニメーション アセットのプロパティを含む [ペルソナ] タブを開きます。 |
+|  ![](button_AnimGraphUI_Graph.png) | [Animation Blueprint] タブを開きます。 |
+
+
+
+## ビューポート
+ビューポートには、現在の変数値によってアクティベートされたアニメーションと共にそのスケルタルメッシュが表示されます。
+
+![](AnimGraphUI_Viewport.png)
+
+## クラスのデフォルト
+
+**[Class Defaults (クラスのデフォルト)]** パネルには、すべてのアニメーション ブループリントのすべての変数がカテゴリ別に表示されます。ここで手動で変数値を変更し、ビューポートで様々なアニメーションをプレビューし表示できます。
+
+![](AnimGraphUI_BPDefaults.png)
+
+詳細は、 [](Engine/Animation/Persona\BlueprintDefaults) を参照してください。
+
+## グラフ
+
+タブで表示されるグラフ パネルは、現在選択されているグラフが表示されます。
+
+### EventGraph（イベントグラフ）タブ
+
+**[EventGraph (イベントグラフ)]** タブには、スケルタル メッシュのポーズの更新をトリガーするアニメーション イベントノードがあります。どのアニメーション アセットをいつ再生するかを決定する変数値を設定するアニメーション ノードも含まれる場合があります。
+
+![](AnimGraphUI_Graph.png)(w:900)
+
+### [AnimGraph] タブ
+
+**[AnimGraph]** タブには、すべての実際のアニメーションとステートを、必要なアニメーション ノードにつなげるステートマシーンがあります。
+
+![](AnimGraphUI_AnimGraph.png)
+
+ステートマシンに関する詳細については、[](Engine/Animation/StateMachines) をご覧ください。
+
+[REGION:note]
+すべてのアニメーションノードを直接 **[AnimGraph]** タブに入れることもできます。しかし、維持管理しやすく単純化するには、ステートマシーン、ステート、トランジション (ルール) で構成すると効率が高まります。
+[/REGION]
+
+##[Asset Browser (アセット ブラウザ)] タブ
+
+**[Asset Browser]** タブには、アニメーション ブループリントのすべてのアニメーション アセットのリストがあります。
+
+![](AnimGraphUI_AssetBrowser.png)
+
+デフォルトで、グラフの下の** [My Blueprint]**タブの隣に **[アセット ブラウザ]** タブがあります。
+
+
+## [My Blueprint] タブ
+
+**[My Blueprint]** タブには、アニメーション ブループリントのすべてのグラフと変数のリストがあります。
+
+![](AnimGraphUI_MyBP.png)
+
+デフォルトで、グラフの下の**[アセット ブラウザ]**タブの隣に **[My Blueprint]** タブがあります。
+
+
+## [Details (詳細)] パネル
+
+**[Details** パネルには、選択した要素のプロパティが表示されます。
+
+![](AnimGraphUI_Details.png)
+
+## Palette（パレット）
+
+**[Palette]** パネルには、アニメーション ブループリントの様々なグラフで使用可能なすべてのノードがあります。
+
+![](AnimGraphUI_Palette.png)
+
+[REGION:note]
+デフォルトでは **[Palette]** は表示されない場合があります。表示されていない場合は、**[ウィンドウ]** メニューで **[Palette]** をクリックして開くことができます。
+[/REGION]

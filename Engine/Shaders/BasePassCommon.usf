@@ -1,0 +1,69 @@
+// Copyright 1998-2015 Epic Games, Inc. All Rights Reserved.
+
+/*=============================================================================
+	BasePassCommon.usf: Base pass definitions used by both vertex and pixel shader
+=============================================================================*/
+
+#undef NEEDS_LIGHTMAP_COORDINATE
+
+#define NEEDS_LIGHTMAP_COORDINATE		(HQ_TEXTURE_LIGHTMAP || LQ_TEXTURE_LIGHTMAP)
+// Translucent materials need to compute fogging in the forward shading pass
+// Materials that read from scene color skip getting fogged, because the contents of the scene color lookup have already been fogged
+// This is not foolproof, as any additional color the material adds will then not be fogged correctly
+#define NEEDS_BASEPASS_FOGGING			(ENABLE_TRANSLUCENCY_VERTEX_FOG && ((MATERIALBLENDING_TRANSLUCENT || MATERIALBLENDING_ADDITIVE || MATERIALBLENDING_MODULATE) && !MATERIAL_USES_SCENE_COLOR_COPY))
+#define NEEDS_LIGHTMAP					(NEEDS_LIGHTMAP_COORDINATE)
+
+#define WRITES_VELOCITY_TO_GBUFFER		(OUTPUT_GBUFFER_VELOCITY && (MATERIALBLENDING_SOLID || MATERIALBLENDING_MASKED))
+// Use an extra interpolator for position
+#define WRITES_VELOCITY_TO_GBUFFER_USE_POS_INTERPOLATOR		(WRITES_VELOCITY_TO_GBUFFER && USING_TESSELLATION)
+
+struct FSharedBasePassInterpolants
+{
+	//for texture-lightmapped translucency we can pass the vertex fog in its own interpolator
+#if NEEDS_BASEPASS_FOGGING
+	float4 VertexFog		: TEXCOORD7;
+#endif
+
+#if !PC_D3D && !GL4_PROFILE
+	float4 PixelPosition	: TEXCOORD8;
+
+	#if USE_WORLD_POSITION_EXCLUDING_SHADER_OFFSETS
+	float4 PixelPositionExcludingWPO : TEXCOORD9;
+	#endif
+#endif
+
+#if WRITES_VELOCITY_TO_GBUFFER
+	// .xy is clip position, pre divide by w; .w is clip W; .z is 0 or 1 to mask out the velocity output
+	float4 VelocityPrevScreenPosition : VELOCITY_PREV_POS;
+	#if WRITES_VELOCITY_TO_GBUFFER_USE_POS_INTERPOLATOR
+		float4 VelocityScreenPosition : VELOCITY_POS;
+	#endif
+#endif
+};
+
+#if PC_D3D || GL4_PROFILE
+
+/** Interpolants passed from the vertex shader to the pixel shader. */
+struct FBasePassInterpolantsVSToPS : FSharedBasePassInterpolants
+{
+	float4 PixelPosition	: TEXCOORD8;
+
+	#if USE_WORLD_POSITION_EXCLUDING_SHADER_OFFSETS
+	float4 PixelPositionExcludingWPO : TEXCOORD9;
+	#endif
+};
+
+/** Interpolants passed from the vertex shader to the domain shader. */
+struct FBasePassInterpolantsVSToDS : FSharedBasePassInterpolants
+{
+	#if USE_WORLD_POSITION_EXCLUDING_SHADER_OFFSETS
+	float3 WorldPositionExcludingWPO : TEXCOORD9;
+	#endif
+};
+
+#else
+
+// Only the PC shader compiler supports HLSL inheritance
+#define FBasePassInterpolantsVSToPS FSharedBasePassInterpolants
+
+#endif

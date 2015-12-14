@@ -1,0 +1,80 @@
+﻿INTSourceChangelist:2591123
+Availability:Public
+Title:アセットとパッケージ
+Crumbs: %ROOT%, Engine
+Description:アンリアル・エンジン 4で使用するアセットとパッケージシステムの概要
+
+[VAR:Topic]
+[OBJECT:Topic]
+	[PARAM:image]
+		![%Engine/Basics/AssetsAndPackages:title%](Engine/Content/content_topic.png)
+	[/PARAM]
+	[PARAM:icon]
+		![](%ROOT%/content_icon.png)(convert:false)
+	[/PARAM]
+	[PARAM:title]
+		%Engine/Basics/AssetsAndPackages:title%
+	[/PARAM]
+	[PARAM:description]
+		%Engine/Basics/AssetsAndPackages:description%
+	[/PARAM]
+	[PARAM:path]
+		[RELATIVE:Engine/Basics/AssetsAndPackages]
+	[/PARAM]
+[/OBJECT]
+[/VAR]
+
+[TOC (start:2 end:3)]
+
+## 概要
+
+ワークフローにいくつかのアセットファイルを格納するパッケージファイルがある場合、ソース制御コンテンション（競合）が問題になります。代わりにサポートおよび推奨されるワークフローは、多くの個別ファイルの作成です。すなわち、アセットを個別にチェックアウトすることができるワークフローです。これにより、ワークフローのソース制御コンテンション（競合）とボトルネックを削減することができます。
+
+さらに、単一アセットの変更は1つの小さなファイル更新のみを必要とするため、複数のアセットを収容したパッケージよりも個別のアセットファイルを格納するコンテンツ管理システムの同期時間が高速になります。
+
+アンリアル・エディタは、アセットを「.uasset」ファイルに保存します。各アセットファイルには、通常は単一アセットのみが含まれています。各アセット参照には、ゲーム内の全アセットを一意に識別するディレクトリ形式のパスが含まれています。
+
+アセットは **コンテンツブラウザ** で作成するかここへインポートします。アセットの作成に関する詳細は、 [](Engine/Content/AssetCreation)を参照してください。**コンテンツブラウザ** を使用した作業に関する情報は、[](Engine/Content/Browser) を参照してください。
+
+## アセットの作業
+
+**コンテンツブラウザ** の **Asset Tree** から、アセットのリストを利用出来ます。 **Asset Tree** は、 **コンテンツブラウザ** で(![Asset Tree button](AssetTree_button.png))ボタンをクリックして展開したり折りたたんだりすることができます。
+
+*  **Asset Tree** は、「.uasset」ファイルが存在するコンテンツディレクトリにフォルダのリストを表示します。
+* **Asset Tree** のフォルダをクリックすると、フォルダ内の全アセットとそのサブフォルダが表示されます。
+* フォルダを **右クリック** すると、フォルダに対して有効な動作の一覧、フォルダ内のアセット、またはサブフォルダが表示されます。コンテクストメニューから **Asset Tree** へ新しいフォルダを追加することができます。
+
+[REGION:note]
+アンリアルエディタの外部フォルダ間でアセットを自由に移動したり、参照の状態がそのままに保たれることはもはやありません。代わりに、アセットは **コンテンツブラウザ** から移動しなくてはいけません。アセットの参照は、アセットへのフルディレクトリパスを含むことが理由です。アセットを移動した場合、パスも変更します。 
+
+レベル（.umap）ファイルはこれらの制約に影響を受けません。
+[/REGION]
+
+**コンテンツブラウザ** を使用したアセットの移動、名前の変更、追加または削除に関する詳細は、 [](Engine/Content/Browser\UserGuide\BrowserAssetCreation) を参照してください。
+
+###アセットの命名
+
+アセットの作成時またはインポートの際にアセットに名前を付けます。アセットのパスは、アセットを作成またはインポートしたフォルダで自動的に設定されます。 パスはディスクの位置と直接関連付けられます。例えば、 **`Content/Characters/MyCharacter`** のパスは 「`/UE4/MyProject/Content/Characters/MyCharacter.MyCharacter.uasset`」 へ保存されます。
+
+アセットの参照は、参照にパスが含まれています。例えば「`Blueprint'/MyProject/Content/Characters/MyCharacter.MyCharacter'」のようになります。
+
+### アセットを別プロジェクトへコピーする
+
+**コンテンツブラウザ** でMigrate（移行）ツールを使用して、別のプロジェクトで利用するアセット（また任意の依存アセット）のコピーを作成出来ます。
+
+Migrateツールに関する詳細は、 [](Engine/Content/Browser\UserGuide\Migrate)を参照してください。
+
+### アセットパック
+
+ランチャーからアセットパックをダウンロードしたら、パックを開いたり特別なアセットを移行せずにパックのコンテンツ全てをプロジェクトに追加することができます。
+
+以下の方法でアセットパックをプロジェクトに追加します。
+
+1. Vault (保管庫) にあるアセットパックを探します。
+	![](Vault.png)
+1. **Add to Project** をクリックします。
+1. 表示されるリストからご自身のプロジェクトを選択します。
+	![](SelectedProject.png)
+1. **Add to Project** をクリックします。
+
+次にプロジェクトを開くと、アセットパックに因んで命名したフォルダ内のコンテンツすべてが表示されます。
